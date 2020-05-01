@@ -18,23 +18,23 @@ let BookInstance = require('./models/bookinstance')
 
 
 let mongoose = require('mongoose');
-const mongoDB = userArgs[0];
+let mongoDB = userArgs[0];
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-const authors = []
-const genres = []
-const books = []
-const bookinstances = []
+let authors = []
+let genres = []
+let books = []
+let bookinstances = []
 
 function authorCreate(first_name, family_name, d_birth, d_death, cb) {
   authordetail = {first_name:first_name , family_name: family_name }
   if (d_birth != false) authordetail.date_of_birth = d_birth
   if (d_death != false) authordetail.date_of_death = d_death
   
-  let author = new Author(authordetail);
+  const author = new Author(authordetail);
        
   author.save(function (err) {
     if (err) {
@@ -48,7 +48,7 @@ function authorCreate(first_name, family_name, d_birth, d_death, cb) {
 }
 
 function genreCreate(name, cb) {
-  let genre = new Genre({ name: name });
+  const genre = new Genre({ name: name });
        
   genre.save(function (err) {
     if (err) {
@@ -70,7 +70,7 @@ function bookCreate(title, summary, isbn, author, genre, cb) {
   }
   if (genre != false) bookdetail.genre = genre
     
-  let book = new Book(bookdetail);    
+  const book = new Book(bookdetail);    
   book.save(function (err) {
     if (err) {
       cb(err, null)
@@ -91,7 +91,7 @@ function bookInstanceCreate(book, imprint, due_back, status, cb) {
   if (due_back != false) bookinstancedetail.due_back = due_back
   if (status != false) bookinstancedetail.status = status
     
-  let bookinstance = new BookInstance(bookinstancedetail);    
+  const bookinstance = new BookInstance(bookinstancedetail);    
   bookinstance.save(function (err) {
     if (err) {
       console.log('ERROR CREATING BookInstance: ' + bookinstance);
